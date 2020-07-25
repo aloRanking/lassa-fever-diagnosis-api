@@ -49,6 +49,18 @@ public class UserRegistration extends AuditModel {
     @Column(name = "home_address")
     private String res_home_address;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "role")
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public Long getUser_id() {
         return user_id;
     }
