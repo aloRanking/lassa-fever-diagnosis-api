@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private JwtRequestFilter jwtRequestFilter;
 
     private static final String[] API_WHITELIST = {
-            "/api/v1/lfds/register", "/api/v1/lfds/authenticate"
+            "/","/api/v1/lfds/register", "/api/v1/lfds/authenticate"
     };
 
     @Override
