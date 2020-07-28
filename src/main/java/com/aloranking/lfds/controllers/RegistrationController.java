@@ -1,5 +1,6 @@
 package com.aloranking.lfds.controllers;
 
+import com.aloranking.lfds.models.EmailRequest;
 import com.aloranking.lfds.models.Role;
 import com.aloranking.lfds.models.UserRegistration;
 import com.aloranking.lfds.repositories.RoleRepository;
@@ -47,4 +48,10 @@ public class RegistrationController {
         return userRegistrationRepository.getOne(id);
     }
 
+    @PostMapping("/user")
+    public UserRegistration getUserByMail (@RequestBody EmailRequest email){
+        String userEmail = email.getEmail();
+
+        return userRegistrationRepository.findByEmail(userEmail);
+    }
 }
