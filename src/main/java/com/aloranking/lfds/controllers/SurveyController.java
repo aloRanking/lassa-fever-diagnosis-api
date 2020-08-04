@@ -10,16 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/survey")
+@RequestMapping("api/v1/lfds/survey")
 public class SurveyController {
 
     @Autowired
     private SurveyRepository surveyRepository;
 
     @PostMapping
-    public Survey createSurvey(@RequestBody Survey survey){
+    public ResponseEntity<?> createSurvey(@RequestBody Survey survey){
 
-      return  surveyRepository.saveAndFlush(survey);
+        surveyRepository.saveAndFlush(survey);
+
+        return ResponseEntity.ok("Survey Submitted Successfully");
     }
 
     @GetMapping
