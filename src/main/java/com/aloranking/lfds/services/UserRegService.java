@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 public interface UserRegService {
 
     public UserRegistration getUser(Long id);
+    public  void saveUser(UserRegistration user);
+    public boolean isEmailAlreadyPresent(UserRegistration userRegistration);
 }

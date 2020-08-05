@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/lfds")
+@RequestMapping("api/v1/lfds/survey")
 public class SurveyController {
 
     @Autowired
     private SurveyRepository surveyRepository;
 
-    @PostMapping("/survey")
+    @PostMapping
     public ResponseEntity<?> createSurvey(@RequestBody Survey survey){
 
         surveyRepository.saveAndFlush(survey);

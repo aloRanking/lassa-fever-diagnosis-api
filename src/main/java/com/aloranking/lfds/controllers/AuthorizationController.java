@@ -1,6 +1,7 @@
 package com.aloranking.lfds.controllers;
 
 
+import com.aloranking.lfds.exception.CustomException;
 import com.aloranking.lfds.models.AuthenticationRequest;
 import com.aloranking.lfds.models.AuthenticationResponse;
 import com.aloranking.lfds.services.MyUserDetailService;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +28,8 @@ public class AuthorizationController {
     private MyUserDetailService myUserDetailService;
     @Autowired
     private JwtUtil jwtTokenUtil;
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -35,11 +39,14 @@ public class AuthorizationController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
             );
+
+
         }catch (BadCredentialsException e){
-            throw new Exception("Incorrect Username or Password",e);
+            throw new CustomException("Incorrect Username or Password");
         }
         final UserDetails userDetails = myUserDetailService
                 .loadUserByUsername(authenticationRequest.getUsername());
+
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
