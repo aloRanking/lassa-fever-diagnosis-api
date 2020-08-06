@@ -88,7 +88,7 @@ public class RegistrationController {
     }
 
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PATCH)
+   /* @RequestMapping(value = "/user/{id}", method = RequestMethod.PATCH)
     public ResponseEntity<UserRegistration> updateUser(@RequestBody Map<Object, Object> updates,
                                         @PathVariable("id") Long id){
 
@@ -111,6 +111,30 @@ public class RegistrationController {
 
 
         userRegService.saveUser(existingUser);
+        return new ResponseEntity(existingUser, HttpStatus.ACCEPTED);
+
+
+
+    }*/
+
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<UserRegistration> updateUser(@RequestBody UserRegistration userRegistration,
+                                                       @PathVariable("id") Long id){
+
+        UserRegistration existingUser = userRegService.getUser(id);
+        if (existingUser == null)
+            throw new UserNotFoundException("User Not found");
+
+        existingUser.setFirst_name(userRegistration.getFirst_name());
+        existingUser.setLast_name(userRegistration.getLast_name());
+        existingUser.setGender(userRegistration.getGender());
+        existingUser.setEmail(userRegistration.getEmail());
+        existingUser.setPhone_number(userRegistration.getPhone_number());
+        existingUser.setRes_state(userRegistration.getRes_state());
+        existingUser.setRes_home_address(userRegistration.getRes_home_address());
+
+
+        userRegistrationRepository.save(existingUser);
         return new ResponseEntity(existingUser, HttpStatus.ACCEPTED);
 
 
